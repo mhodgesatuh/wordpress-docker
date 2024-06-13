@@ -11,6 +11,7 @@ services:
       MYSQL_PASSWORD: mypwd
 
   wordpress:
+    build: .
     depends_on:
       - db
     image: wordpress:latest
