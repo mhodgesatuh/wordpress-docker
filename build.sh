@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# init-docker.sh - provide sensitive info to docker compose
+# build.sh - provide sensitive info to docker compose
 
 set_env_var() {
     local var_name=$1
@@ -22,7 +22,7 @@ set_env_var() {
 
 echo "Be sure to save the information provided here somewhere secure."
 
-set_env_var "MYSQL_USER"
+set_env_var "MYSQL_USERNAME"
 set_env_var "MYSQL_ROOT_PASSWORD"
 set_env_var "MYSQL_PASSWORD"
 set_env_var "WORDPRESS_DB_PASSWORD"
