@@ -2,13 +2,13 @@ services:
   db:
     image: mariadb:10.5
     volumes:
-      - db_data:/var/lib/mysql
+      - /var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${WP_DATABASE_NAME}
-      MYSQL_USER: ${MYSQL_ADMIN_USERNAME}
-      MYSQL_PASSWORD: ${MYSQL_ADMIN_PASSWORD}
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME}
+      MYSQL_USER: ${WORDPRESS_DB_USER}
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
     networks:
       - wp-network
 
@@ -16,20 +16,24 @@ services:
     build: .
     depends_on:
       - db
+    user: www-data
     ports:
       - "8080:80"
     restart: always
     environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_ADMIN_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_ADMIN_PASSWORD}
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: ${WP_DB_USERNAME}
-      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
-      WORDPRESS_DB_NAME: ${WP_DATABASE_NAME}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       WP_SITE_TITLE: ${WP_SITE_TITLE}
       WP_SITE_ADMIN_USERNAME: ${WP_SITE_ADMIN_USERNAME}
       WP_SITE_ADMIN_PASSWORD: ${WP_SITE_ADMIN_PASSWORD}
       WP_SITE_ADMIN_EMAIL: ${WP_SITE_ADMIN_EMAIL}
     volumes:
-      - wordpress_data:/var/www/html
+      - /usr/src/wordpress
     networks:
       - wp-network
 
@@ -44,10 +48,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - wp-network
-
-volumes:
-  db_data:
-  wordpress_data:
 
 networks:
   wp-network:

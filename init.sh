@@ -10,13 +10,26 @@ until mysqladmin ping -h db -u root --password="${MYSQL_ROOT_PASSWORD}" --silent
     echo "Skipping WordPress setup and starting Apache directly."
     exec apache2-foreground
   fi
-  echo 'waiting for mysql...'
+  echo 'Waiting for mysql...'
   sleep 5
   ((timeout--))
 done
 
 # Change to WordPress directory.
 cd /usr/src/wordpress
+
+# Create wp-config.php if it does not exist
+if [ ! -f wp-config.php ]; then
+  echo "Creating wp-config.php..."
+
+  wp config create \
+    --dbhost="${WORDPRESS_DB_HOST}" \
+    --dbname="${WORDPRESS_DB_NAME}" \
+    --dbuser="${WORDPRESS_DB_USER}" \
+    --dbpass="${WORDPRESS_DB_PASSWORD}" \
+    --skip-check \
+    --allow-root
+fi
 
 # Check if WordPress is already installed.
 if ! wp core is-installed --allow-root; then
