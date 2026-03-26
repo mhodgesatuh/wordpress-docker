@@ -6,8 +6,14 @@ RUN apt-get update && \
     apt-get install -y libxml2-dev default-mysql-client && \
     docker-php-ext-install soap
 
-# Copy the local virtual host configuration file to the Apache sites-available directory
+# Copy the local virtual host configuration file to the Apache sites-available
+# directory.
 COPY wordpress.conf /etc/apache2/sites-available/wordpress.conf
+
+# Ensure the custom PHP configuration file is copied to the correct location for
+# Apache to use it. The "zz-" prefix ensures it is loaded after the default
+# configurations, allowing it to override settings if necessary.
+COPY php-custom.ini /usr/local/etc/php/conf.d/zz-php-custom.ini
 
 # COPY loctions for certificates to be used by Apache.
 # ----

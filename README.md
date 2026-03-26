@@ -23,8 +23,8 @@ A fully non-interactive Docker Compose setup for WordPress with MariaDB and phpM
 ## Quick Start (Non-Interactive)
 
 ### Prerequisites
-- Docker and Docker Compose installed
-- A `.env` file with required environment variables (see below)
+- Docker and Docker Compose installed.
+- A `.env` file with the required environment variables.
 
 ### Deployment Steps
 
