@@ -2,6 +2,24 @@
 
 A fully non-interactive Docker Compose setup for WordPress with MariaDB and phpMyAdmin.
 
+<!-- TOC -->
+* [WordPress Docker Stack](#wordpress-docker-stack)
+  * [Quick Start (Non-Interactive)](#quick-start-non-interactive)
+    * [Prerequisites](#prerequisites)
+    * [Deployment Steps](#deployment-steps)
+  * [Access the Services](#access-the-services)
+  * [Architecture](#architecture)
+    * [Services](#services)
+    * [Data Persistence](#data-persistence)
+    * [Networks](#networks)
+  * [How Non-Interactive Installation Works](#how-non-interactive-installation-works)
+  * [Stopping and Restarting](#stopping-and-restarting)
+  * [Troubleshooting](#troubleshooting)
+    * [Check logs](#check-logs)
+    * [Database connection issues](#database-connection-issues)
+    * [Reset the Database](#reset-the-database)
+<!-- TOC -->
+
 ## Quick Start (Non-Interactive)
 
 ### Prerequisites
@@ -42,12 +60,8 @@ A fully non-interactive Docker Compose setup for WordPress with MariaDB and phpM
 
 - **WordPress:** http://localhost:8080
   - Admin URL: http://localhost:8080/wp-admin
-  - Username: Value from `WP_SITE_ADMIN_USERNAME` in `.env`
-  - Password: Value from `WP_SITE_ADMIN_PASSWORD` in `.env`
 
 - **phpMyAdmin:** http://localhost:8081
-  - Username: `root` or value from `MYSQL_ADMIN_USERNAME`
-  - Password: Value from `MYSQL_ROOT_PASSWORD` or `MYSQL_ADMIN_PASSWORD`
 
 ## Architecture
 
