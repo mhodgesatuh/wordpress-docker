@@ -21,13 +21,13 @@ fi
 
 echo ""
 echo "Stopping services..."
-docker-compose down
+docker compose down
 
 echo "Removing database volume..."
 docker volume rm wordpress-docker_db_data
 
 echo "Starting services with fresh database..."
-docker-compose up -d
+docker compose up -d
 
 echo ""
 echo "=========================================="
@@ -35,7 +35,7 @@ echo "✓ Database reset complete!"
 echo "=========================================="
 echo ""
 echo "WordPress is initializing..."
-echo "Check progress with: docker-compose logs -f wordpress"
+echo "Check progress with: docker compose logs -f wordpress"
 echo ""
 echo "Once ready, access:"
 echo "  WordPress: http://localhost:8080"
