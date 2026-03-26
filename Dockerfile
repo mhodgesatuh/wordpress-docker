@@ -44,3 +44,4 @@ RUN mkdir -p /var/log/apache2/ && \
 
 # Set entrypoint to the script
 ENTRYPOINT ["/init.sh"]
+CMD ["apache2-foreground"]

@@ -2,7 +2,7 @@ services:
   db:
     image: mariadb:10.5
     volumes:
-      - /var/lib/mysql
+      - db_data:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -38,7 +38,7 @@ services:
       - wp-network
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:5.2-apache
     depends_on:
       - db
     ports:
@@ -52,3 +52,7 @@ services:
 networks:
   wp-network:
     driver: bridge
+
+volumes:
+  db_data:
+
