@@ -13,9 +13,12 @@ A fully non-interactive Docker Compose setup for WordPress with MariaDB and phpM
     * [Data Persistence](#data-persistence)
     * [Networks](#networks)
   * [How Non-Interactive Installation Works](#how-non-interactive-installation-works)
+  * [PHP Configuration](#php-configuration)
+    * [Applying Changes to PHP Settings](#applying-changes-to-php-settings)
   * [Stopping and Restarting](#stopping-and-restarting)
   * [Troubleshooting](#troubleshooting)
     * [Check logs](#check-logs)
+    * [Verify PHP Settings](#verify-php-settings)
     * [Database connection issues](#database-connection-issues)
     * [Reset the Database](#reset-the-database)
 <!-- TOC -->
@@ -41,11 +44,6 @@ A fully non-interactive Docker Compose setup for WordPress with MariaDB and phpM
    ```
 
 3. **Start the stack non-interactively:**
-   ```bash
-   ./build.sh
-   ```
-   
-   Or, use Docker Compose directly:
    ```bash
    docker compose up -d
    ```
@@ -106,6 +104,29 @@ docker compose down -v
 docker compose up -d
 ```
 
+## PHP Configuration
+
+The `php-custom.ini` file contains custom PHP settings that are applied to the WordPress container:
+
+- `upload_max_filesize = 300M` - Maximum file upload size
+- `post_max_size = 320M` - Maximum POST data size
+- `memory_limit = 512M` - PHP memory limit
+- `max_file_uploads = 20` - Maximum number of files in a single upload
+
+### Applying Changes to PHP Settings
+
+If you modify `php-custom.ini`, you **must rebuild the Docker image** for the changes to take effect. The settings are baked into the image during the build process:
+
+```bash
+# Rebuild the WordPress image with no cache
+docker compose build --no-cache wordpress
+
+# Then restart the services
+docker compose up -d
+```
+
+**Important:** Just restarting the containers (`docker compose up -d`) will **not** apply updated PHP settings. You must rebuild the image.
+
 ## Troubleshooting
 
 ### Check logs
@@ -117,6 +138,13 @@ docker compose logs
 docker compose logs wordpress
 docker compose logs db
 docker compose logs phpmyadmin
+```
+
+### Verify PHP Settings
+To confirm that custom PHP settings are active in the running container:
+
+```bash
+docker compose exec wordpress php -i | grep -E "upload_max_filesize|post_max_size|memory_limit|max_file_uploads"
 ```
 
 ### Database connection issues
