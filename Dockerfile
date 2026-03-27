@@ -10,6 +10,11 @@ RUN apt-get update && \
 # directory.
 COPY wordpress.conf /etc/apache2/sites-available/wordpress.conf
 
+# Create php.ini from the production template so that PHP's conf.d scan
+# directory is activated. Without a php.ini file present, mod_php may skip
+# scanning conf.d entirely, causing custom .ini files to be silently ignored.
+RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+
 # Ensure the custom PHP configuration file is copied to the correct location for
 # Apache to use it. The "zz-" prefix ensures it is loaded after the default
 # configurations, allowing it to override settings if necessary.
